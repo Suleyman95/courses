@@ -5,8 +5,7 @@ if(!$link) {
   // если была ошибка выводим ее описание
   echo mysqli_connect_error($link);
 }
-else 
-{
+else {
   // устанавливаем кодировку
   mysqli_set_charset($link, "utf8");
 }
