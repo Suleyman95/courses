@@ -12,18 +12,11 @@ $link = mysqli_connect( "localhost", "root", "0202", "base" );
 if( !$link ) { 
 	echo "Во время соединения с БД произошла ошибка: " . mysqli_connect_error( $link );
 }
-<<<<<<< HEAD
 else {
-  // устанавливаем кодировку
-  mysqli_set_charset($link, "utf8");
-=======
-else 
-{
 	/**
 	 * В случае успешного соединения устанавливаем кодировку UTF8
 	 */
 	mysqli_set_charset( $link, "utf8" );
->>>>>>> d957c7b8b9d1a9e0aca33b4f6637b59111054776
 }
 
 /**
