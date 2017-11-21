@@ -1,16 +1,33 @@
 <?php
+/**
+ * Устанавливаем соединение с БД.
+ * 
+ * @var $link Указатель на соединение
+ */
+$link = mysqli_connect( "localhost", "root", "0202", "base" );
 
-$link = mysqli_connect("localhost", "root", "0202", "base");
-if(!$link) { 
-  // если была ошибка выводим ее описание
-  echo mysqli_connect_error($link);
+/**
+ * Проверяем успешность соединения.
+ */
+if( !$link ) { 
+	echo "Во время соединения с БД произошла ошибка: " . mysqli_connect_error( $link );
 }
 else 
 {
-  // устанавливаем кодировку
-  mysqli_set_charset($link, "utf8");
+	/**
+	 * В случае успешного соединения устанавливаем кодировку UTF8
+	 */
+	mysqli_set_charset( $link, "utf8" );
 }
 
-session_start();
+/**
+ * Инициализируем сессию
+ */
+session_start( );
 
-?>
+/**
+ * Подключаем файл с функциями
+ * Путь указан не совсем верно, позже нужно будет 
+ * исправить (с объяснениями), исопльзуя dirname().
+ */
+include( "inc/functions.php" )
