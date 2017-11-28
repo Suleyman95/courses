@@ -51,6 +51,7 @@ function add_student( $firstname, $lastname, $group_id ) {
  * @return bool Возвращает true в случае успеха и false в случае ошибки
  */
 function set_email( $student_id, $email ) {
+	if( !check_email( $email ) ) { return false; }
 	global $link;
 	$q = mysqli_query( $link, "UPDATE students SET `email` = '$email' WHERE `id` = $student_id" );
 	if( $q ) {
@@ -85,6 +86,7 @@ function set_password( $student_id, $password ) {
  * @return bool
  */
 function set_phone( $student_id, $phone ) {
+	if( !check_phone( $phone ) ) { return false; }
 	global $link;
 	$q = mysqli_query( $link, "UPDATE students SET `phone` = '$phone' WHERE `id` = $student_id" );
 	if( $q ) {
@@ -153,8 +155,11 @@ function activate_account( $id ) {
  * 
  * @param string $name  Имя переменной 
  * @param string $value Значение переменной
+ * 
+ * @return bool | void
  */
 function set_session_var( $name, $value ) {
+	if( !check_var_name( $name ) ) { return false; }
 	$_SESSION[$name] = $value;
 }
 
@@ -278,4 +283,41 @@ function userinfo( $student_id, $column ) {
 	gloabl $link;
 	$q = mysqli_query( $link, "SELECT `$column` FROM `students` WHERE `id` = $student_id" );
 	return mysqli_fetch_row( $q )[0];
+}
+
+/**
+ * Проверка правильности ввода номера телефона
+ * Правильный формат: 79991230011
+ *
+ * @param string $input Входные данные
+ * 
+ * @return bool
+ */
+function check_phone( $input ) {
+	$p = "^[78]{1}\d{10}$";
+	return (bool) preg_match( $p, $input );
+}
+
+/**
+ * Проверка правильности ввода e-mail адреса
+ * 
+ * @param string $input 
+ * 
+ * @return bool
+ */
+function check_email( $input ) {
+	$p = "/^[0-9a-z_-]{1,255}@[a-z0-9_-]+\.\w{1,255}$/i";
+	return (bool) preg_match( $p, $input );
+} 
+
+/**
+ * Проверка правильности ввода имени переменной
+ * 
+ * @param string $name 
+ * 
+ * @return bool
+ */
+function check_var_name( $name ) {
+	$p = "/^[a-z_]{1}[a-z0-9]*$/i";
+	return (bool) preg_match( $p, $input );
 }
