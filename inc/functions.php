@@ -34,7 +34,7 @@ function add_group( $name, $start_date, $lessons_time, $lessons_days ) {
  */
 function add_student( $firstname, $lastname, $group_id ) {
 	global $link;
-	$q = mysqli_query( $link, "INSERT INTO groups ( firstname, lastname, group_id ) VALUES ( '$firstname', '$lastname', $group_id )" );
+	$q = mysqli_query( $link, "INSERT INTO students ( firstname, lastname, group_id ) VALUES ( '$firstname', '$lastname', $group_id )" );
 	if( $q ) {
 		return mysqli_insert_id( $link );
 	}
@@ -210,7 +210,7 @@ function authorize( $mail, $password ) {
 	$q = mysqli_query( $link, "SELECT id FROM students WHERE `email` = '$mail' AND `password` = '$password'" );
 	$res = mysqli_num_rows( $q );
 	if( $res ) {
-		$id = mysqli_fetch_row( $q )[];
+		$id = mysqli_fetch_row( $q )[0];
 		set_session_var("student_id", $id);
 		set_session_var("auth", 1);
 		return true;
@@ -280,7 +280,7 @@ function complete_lessons( $group_id ) {
  * @return string
  */
 function userinfo( $student_id, $column ) {
-	gloabl $link;
+	global $link;
 	$q = mysqli_query( $link, "SELECT `$column` FROM `students` WHERE `id` = $student_id" );
 	return mysqli_fetch_row( $q )[0];
 }
